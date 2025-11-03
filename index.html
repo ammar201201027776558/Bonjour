@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" href="B.png" sizes="32x32">
+  <title>Bonjour Sports Shoes</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    header {
+      background: #111;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background: #222;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      padding: 10px;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #ffcc00;
+    }
+
+    .cart-icon {
+      color: #fff;
+      cursor: pointer;
+      font-size: 1.2rem;
+      position: relative;
+    }
+
+    .cart-count {
+      background: red;
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 0.8rem;
+      position: absolute;
+      top: -8px;
+      right: -10px;
+    }
+
+    .offers {
+      background: #ffcc00;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .filters {
+      text-align: center;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .filters input[type="text"] {
+      width: 60%;
+      max-width: 400px;
+      padding: 10px;
+      border: 2px solid #111;
+      border-radius: 5px;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .range-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+    }
+
+    input[type="range"] {
+      width: 40%;
+      cursor: pointer;
+    }
+
+    .price-values {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px 40px;
+    }
+
+    .product {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 20px;
+      transition: transform 0.3s;
+    }
+
+    .product:hover {
+      transform: scale(1.05);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 10px;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .btn {
+      background: #111;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #ffcc00;
+      color: #111;
+    }
+
+    footer {
+      background: #111;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 30px;
+    }
+
+    /* 🛒 CART SIDEBAR */
+    .cart {
+      position: fixed;
+      right: -400px;
+      top: 0;
+      width: 350px;
+      height: 100%;
+      background: white;
+      box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+      padding: 20px;
+      transition: 0.4s;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .cart.active {
+      right: 0;
+    }
+
+    .cart h2 {
+      text-align: center;
+      border-bottom: 2px solid #ffcc00;
+      padding-bottom: 10px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+
+    .cart-item img {
+      width: 50px;
+      border-radius: 5px;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      margin-left: 10px;
+    }
+
+    .cart-item button {
+      background: red;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+
+    .cart-total {
+      font-weight: bold;
+      text-align: right;
+      margin-top: 20px;
+    }
+
+    .close-cart {
+      display: block;
+      text-align: right;
+      cursor: pointer;
+      color: red;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .checkout-btn {
+      display: block;
+      width: 100%;
+      background: #111;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .checkout-btn:hover {
+      background: #ffcc00;
+      color: #111;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bonjour Sports Shoes</h1>
+    <p>Your Step to Comfort & Style 👟</p>
+  </header>
+
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#offers">Offers</a>
+    <a href="#products">Shop</a>
+    <a href="#contact">Contact</a>
+    <div class="cart-icon" id="cart-btn">🛒
+      <span class="cart-count" id="cart-count">0</span>
+    </div>
+  </nav>
+
+  <section id="offers" class="offers">
+    <h2>🔥 Special Offers 🔥</h2>
+    <p>Save big this week on your favorite sport shoes!</p>
+  </section>
+
+  <div class="filters">
+    <input type="text" id="searchInput" placeholder="Search for shoes..." />
+    <div class="range-container">
+      <input type="range" id="minRange" min="900" max="5500" value="900">
+      <input type="range" id="maxRange" min="900" max="5500" value="5500">
+    </div>
+    <div class="price-values">
+      Price: <span id="minPrice">900</span> EGP - <span id="maxPrice">5500</span> EGP
+    </div>
+  </div>
+
+  <section id="products" class="products"></section>
+
+  <div class="cart" id="cart">
+    <span class="close-cart" id="close-cart">✖</span>
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <div class="cart-total" id="cart-total">Total: 0 EGP</div>
+    <button class="checkout-btn" id="checkout-btn">Order</button>
+  </div>
+
+  <footer id="contact">
+  <p>📞 Contact us: +20 123 456 789 | 📧 bonjour@sportshoes.com</p>
+  <p>Follow us on Instagram & Facebook @BonjourShoes</p>
+  <p style="margin-top:10px; color:#ffcc00; font-weight:bold;">
+    © Saved & Made by Ammar
+  </p>
+</footer>
+
+
+  <script>
+    // 🖼️ إنشاء 30 منتج تلقائيًا من الصور في مجلد images/
+    const productImages = Array.from({length: 30}, (_, i) => ({
+      name: `Air Zoom Model ${i + 1}`,
+      img: `images/shoe${i + 1}.jpg`
+    }));
+
+    const productsList = productImages.map(p => ({
+      name: p.name,
+      image: p.img,
+      price: Math.floor(Math.random() * (5500 - 900 + 1)) + 900
+    }));
+
+    const productsSection = document.getElementById("products");
+    const searchInput = document.getElementById("searchInput");
+    const minRange = document.getElementById("minRange");
+    const maxRange = document.getElementById("maxRange");
+    const minPriceLabel = document.getElementById("minPrice");
+    const maxPriceLabel = document.getElementById("maxPrice");
+
+    function renderProducts(list) {
+      productsSection.innerHTML = list.map(p => `
+        <div class="product" data-name="${p.name}" data-price="${p.price}">
+          <img src="${p.image}" alt="${p.name}" />
+          <h3>${p.name}</h3>
+          <p>${p.price.toLocaleString()} EGP</p>
+          <button class="btn add-to-cart">Add to Cart</button>
+        </div>
+      `).join("");
+    }
+
+    renderProducts(productsList);
+
+    function filterProducts() {
+      const keyword = searchInput.value.toLowerCase();
+      const minVal = Number(minRange.value);
+      const maxVal = Number(maxRange.value);
+
+      minPriceLabel.textContent = minVal;
+      maxPriceLabel.textContent = maxVal;
+
+      const filtered = productsList.filter(p =>
+        p.name.toLowerCase().includes(keyword) &&
+        p.price >= minVal && p.price <= maxVal
+      );
+      renderProducts(filtered);
+    }
+
+    searchInput.addEventListener("input", filterProducts);
+    minRange.addEventListener("input", filterProducts);
+    maxRange.addEventListener("input", filterProducts);
+
+    // 🛒 CART
+    const cartBtn = document.getElementById('cart-btn');
+    const closeCart = document.getElementById('close-cart');
+    const cart = document.getElementById('cart');
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    const cartCount = document.getElementById('cart-count');
+    let cartData = [];
+
+    cartBtn.addEventListener('click', () => cart.classList.add('active'));
+    closeCart.addEventListener('click', () => cart.classList.remove('active'));
+
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('add-to-cart')) {
+        const product = e.target.closest('.product');
+        const name = product.getAttribute('data-name');
+        const price = parseFloat(product.getAttribute('data-price'));
+        const image = product.querySelector('img').src;
+
+        const existing = cartData.find(item => item.name === name);
+        if (existing) existing.quantity++;
+        else cartData.push({ name, price, image, quantity: 1 });
+
+        updateCart();
+      }
+    });
+
+    function updateCart() {
+      cartItems.innerHTML = '';
+      let total = 0;
+      cartData.forEach((item, index) => {
+        total += item.price * item.quantity;
+        const div = document.createElement('div');
+        div.classList.add('cart-item');
+        div.innerHTML = `
+          <img src="${item.image}" alt="${item.name}" />
+          <div class="cart-item-info">
+            <strong>${item.name}</strong><br>
+            ${item.price.toLocaleString()} EGP × ${item.quantity}
+          </div>
+          <button onclick="removeItem(${index})">🗑️</button>
+        `;
+        cartItems.appendChild(div);
+      });
+
+      cartTotal.textContent = `Total: ${total.toLocaleString()} EGP`;
+      cartCount.textContent = cartData.reduce((acc, item) => acc + item.quantity, 0);
+    }
+
+    function removeItem(index) {
+      cartData.splice(index, 1);
+      updateCart();
+    }
+
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+      if (cartData.length === 0) return alert('🛒 سلتك فاضية!');
+      alert('📞 من فضلك اتصل على الرقم 0123456789 لإتمام الطلب ❤️');
+      cartData = [];
+      updateCart();
+      cart.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
